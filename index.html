@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Simulador AC — Circuito RLC</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet"/>
+</head>
+<body>
+
+  <header>
+    <div class="logo">⚡ SimulAC</div>
+    <p class="subtitle">Simulador de Circuito en Corriente Alterna — RLC Serie</p>
+  </header>
+
+  <main>
+    <!-- PANEL DE CONTROLES -->
+    <section class="panel controls-panel">
+      <h2>Parámetros del Circuito</h2>
+
+      <div class="control-group">
+  <label>Voltaje pico V<sub>p</sub></label>
+  <div class="input-row">
+    <input type="number" id="voltage" value="120" min="0" step="any"/>
+    <select id="voltageUnit"><option value="1" selected>V</option><option value="0.001">mV</option><option value="1000">kV</option></select>
+  </div>
+</div>
+
+<div class="control-group">
+  <label>Frecuencia f</label>
+  <div class="input-row">
+    <input type="number" id="freq" value="10" min="0" step="any"/>
+    <select id="freqUnit"><option value="1" selected>Hz</option><option value="0.001">mHz</option><option value="1000">kHz</option></select>
+  </div>
+</div>
+
+<div class="control-group">
+  <label>Resistencia R</label>
+  <div class="input-row">
+    <input type="number" id="resistance" value="100" min="0" step="any"/>
+    <select id="resistanceUnit"><option value="1" selected>Ω</option><option value="0.001">mΩ</option><option value="1000">kΩ</option><option value="1000000">MΩ</option></select>
+  </div>
+</div>
+
+<div class="control-group">
+  <label>Inductancia L</label>
+  <div class="input-row">
+    <input type="number" id="inductance" value="1" min="0" step="any"/>
+    <select id="inductanceUnit"><option value="1" selected>H</option><option value="0.001">mH</option><option value="0.000001">µH</option><option value="0.000000001">nH</option></select>
+  </div>
+</div>
+
+<div class="control-group">
+  <label>Capacitancia C</label>
+  <div class="input-row">
+    <input type="number" id="capacitance" value="1" min="0" step="any"/>
+    <select id="capacitanceUnit"><option value="1" selected>F</option><option value="0.001">mF</option><option value="0.000001">µF</option><option value="0.000000001">nF</option></select>
+  </div>
+</div>
+
+<div class="control-group">
+  <label>Velocidad animación</label>
+  <div class="input-row">
+    <input type="range" id="speed" min="0.01" max="0.5" value="0.05" step="0.01"/>
+    <span class="val" id="speedVal">0.05</span>
+  </div>
+</div>
+
+      <div class="btn-row">
+        <button id="btnPlay" class="btn-primary">▶ Iniciar</button>
+        <button id="btnReset" class="btn-secondary">↺ Reiniciar</button>
+      </div>
+    </section>
+
+    <!-- PANEL DE RESULTADOS -->
+    <section class="panel results-panel">
+      <h2>Valores Calculados</h2>
+      <div class="results-grid">
+        <div class="result-card">
+          <span class="r-label">Reactancia XL</span>
+          <span class="r-val" id="XL">—</span>
+          <span class="r-unit">Ω</span>
+        </div>
+        <div class="result-card">
+          <span class="r-label">Reactancia XC</span>
+          <span class="r-val" id="XC">—</span>
+          <span class="r-unit">Ω</span>
+        </div>
+        <div class="result-card">
+          <span class="r-label">Impedancia Z</span>
+          <span class="r-val" id="Z">—</span>
+          <span class="r-unit">Ω</span>
+        </div>
+        <div class="result-card">
+          <span class="r-label">Corriente pico Ip</span>
+          <span class="r-val" id="Ip">—</span>
+          <span class="r-unit">A</span>
+        </div>
+        <div class="result-card">
+          <span class="r-label">Corriente rms</span>
+          <span class="r-val" id="Irms">—</span>
+          <span class="r-unit">A</span>
+        </div>
+        <div class="result-card">
+          <span class="r-label">Ángulo de fase φ</span>
+          <span class="r-val" id="phi">—</span>
+          <span class="r-unit">°</span>
+        </div>
+        <div class="result-card">
+          <span class="r-label">Frec. resonancia f₀</span>
+          <span class="r-val" id="f0">—</span>
+          <span class="r-unit">Hz</span>
+        </div>
+        <div class="result-card">
+          <span class="r-label">Factor de potencia</span>
+          <span class="r-val" id="fp">—</span>
+          <span class="r-unit">cos φ</span>
+        </div>
+      </div>
+
+      <div class="phase-badge" id="phaseBadge">—</div>
+    </section>
+
+    <!-- CANVAS ONDAS -->
+    <section class="panel canvas-panel">
+      <h2>Ondas Animadas</h2>
+      <div class="legend">
+        <span class="leg-v">━━ Voltaje V(t)</span>
+        <span class="leg-i">━━ Corriente I(t)</span>
+      </div>
+      <canvas id="waveCanvas"></canvas>
+      <div class="axis-labels">
+        <span>Tiempo →</span>
+      </div>
+    </section>
+
+    <!-- FASOR -->
+    <section class="panel phasor-panel">
+      <h2>Diagrama Fasorial</h2>
+      <canvas id="phasorCanvas"></canvas>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
